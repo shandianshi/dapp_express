@@ -2,7 +2,7 @@
  * Created by yzl on 2018/5/11.
  */
 
-var dappAddress = "n1rqghzAoLT7YGR7va3ojGkpmkYuN3TeQow";
+var dappAddress = "n1qQpvKL33EcdYGNhX1kWivCUx8SWDrKFUS";
 
 var nebulas = require("nebulas"),
     Account = nebulas.Account,
@@ -37,6 +37,9 @@ function getPrivateContent(row){
 
 
 function init() {
+    if(typeof(webExtensionWallet) === "undefined"){
+        alert ("使用前请先安装钱包插件！ 地址：\"https://github.com/ChengOrangeJu/WebExtensionWallet\">")
+    }
     var netaList=new NetaList($('#neta_list'),getPrivateContent);
     refreshNetaList(netaList);
     $('#add_tract').on('click',function () {
@@ -48,8 +51,9 @@ function init() {
         var jsonData=formUtil.SerializeArrayToJson(data);
         var transferData=[jsonData];
         charge(dappAddress,"0","save",JSON.stringify(transferData)).then(function (result) {
-            alert("支付成功,请之后手动刷新页面，钱包query接口后查询数据依旧为旧数据");
+            alert("支付成功,请之后手动刷新页面，钱包query接口查询成功后查询数据依旧为旧数据");
             refreshNetaList(netaList);
+            $('#modal_add').modal('toggle');
         })
     });
 }

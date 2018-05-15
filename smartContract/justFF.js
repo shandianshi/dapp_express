@@ -4,7 +4,7 @@ var neta = function(text) {
 	if (text) {
 	    var obj=text;
 		this.key = obj.key;
-        this.publicContent = text;
+        this.publicContent = obj.publicContent;
 		this.privateContent=obj.privateContent;
 		this.price=obj.price;
 	}
