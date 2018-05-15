@@ -1,7 +1,7 @@
 /**
  * Created by yzl on 2018/5/11.
  */
-function NetaList(table){
+function NetaList(table,methods){
     this.tableList=[];
     this.container=table;
     var operationListFormatter=function (value, row, index) {
@@ -11,16 +11,17 @@ function NetaList(table){
     };
     var operateListEvents= {
         'click .operate-perform': function (e, value, row, index) {
-            //console.dir(row);
-            alert(row);
+            if(methods)
+                methods(row);
+            console.dir(row);
+            //alert(row);
         }
     };
+    var tableList=[]
     tableList.push({field:"author",title:"用户地址"});
     tableList.push({field:"key",title:"主题"});
-    tableList.push({field:"privateContent",title:"价格"});
-    tableList.push({field:"publicContent",title:"内容"});
-    tableList.push({field:"linkLoss",title:"链路损耗"});
-    tableList.push({field:"circleId",title:"所属环"})
+    tableList.push({field:"price",title:"价格"});
+    tableList.push({field:"publicContent",title:"可见内容"});
     tableList.push({
         title:"操作",
         formatter: operationListFormatter,

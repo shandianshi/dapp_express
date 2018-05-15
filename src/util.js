@@ -137,6 +137,19 @@ var ajaxUtil={
     },
 };
 
+var timeUtil={
+    timeout:function (delay) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                try {
+                    resolve(1)
+                } catch (e) {
+                    reject(0)
+                }
+            }, delay)
+        })
+    }
+}
 
 var UIUtil={
     setAllModalDraggable:function (windowElement) {
@@ -197,15 +210,12 @@ var tableUtil={
         table.bootstrapTable('destroy');
         table.bootstrapTable({
                 url: sourceUrl?sourceUrl:undefined,// 请求后台的URL（*）
-                method: 'get', //请求方式（*）
+                // method: 'get', //请求方式（*）
                 locale:'zh-CN',
                 checkbox:'true',
                 singleSelect:options?options.singleSelect: true,
-                showPaginationSwitch:options?options.showToolbar:true,
                 onClickRow:options?options.Click:undefined,
                 onDblClickRow:options?options.doubleClick:null,
-                showToggle:options?options.showToolbar:true,
-                showRefresh:options?options.showToolbar:true,
                 data:options?options.data:undefined,
                 //表格导出相关配置
                 exportDataType: 'all',  //导出表格方式（默认basic：只导出当前页的表格数据；
@@ -214,11 +224,6 @@ var tableUtil={
                 buttonsAlign:"right",  //按钮位置
                 exportTypes:['excel'],  //导出文件类型
                 Icons:'glyphicon-export',
-                exportOptions:{
-                    ignoreColumn: [],  //忽略某一列的索引
-                    worksheetName: 'sheet1',  //表格工作区名称
-                    tableName: '导出数据',
-                },
 
                 search:options?options.searchBar:true,//搜索
                 strictSearch:false,

@@ -4,7 +4,7 @@ var neta = function(text) {
 	if (text) {
 	    var obj=text;
 		this.key = obj.key;
-        this.publicContent = obj.publicContent;
+        this.publicContent = text;
 		this.privateContent=obj.privateContent;
 		this.price=obj.price;
 	}
@@ -25,14 +25,7 @@ neta.prototype = {
 };
 
 var netaRepo = function () {
-    LocalContractStorage.defineMapProperty(this, "repo", {
-        parse: function (text) {
-            return new neta(text);
-        },
-        stringify: function (o) {
-            return o.toString();
-        }
-    });
+    LocalContractStorage.defineMapProperty(this, "repo");
     LocalContractStorage.defineMapProperty(this, "arrayMap");
     LocalContractStorage.defineMapProperty(this, "dataMap");
     LocalContractStorage.defineProperty(this, "size");
@@ -75,19 +68,26 @@ netaRepo.prototype = {
         var result  = [];
         for(var i=offset;i<number;i++){
             var key = this.arrayMap.get(i);
-            var  object = this.repo.get(key);
-            result.push(object);
+            if(key){
+                var  object = this.repo.get(key);
+                result.push(object);
+            }
+
         }
-        return JSON.stringify(result);
+        return result;
     },
 
-    get: function (key) {
+    getPrivateContent: function (key) {
         key = key.trim();
         if ( key === "" ) {
             throw new Error("empty key")
         }
-
-        return this.repo.get(key);
+        var resultObj=JSON.parse(this.repo.get(key)),result="";
+        if(Blockchain.transaction.value==resultObj.value)
+            result+=(resultObj.publicContent+resultObj.privateContent);
+        else
+            result=result+Blockchain.transaction.value+"shouldval"+resultObj.value;
+        return result;
     }
 };
 module.exports = netaRepo;
